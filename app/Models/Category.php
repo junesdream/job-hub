@@ -9,9 +9,5 @@ class Category extends Model
 {
     use HasFactory;
 
-   // Relationship to Jobs (A category can be associated with multiple jobs)
-    public function jobs()
-    {
-        return $this->belongsToMany(Job::class);
-    }
+    protected $fillable = ['name', 'description'];
 }

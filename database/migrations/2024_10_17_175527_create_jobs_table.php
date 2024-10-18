@@ -1,22 +1,18 @@
 <?php
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateJobsTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
-        // Drop the table if it exists
-        Schema::dropIfExists('jobs');
-
-        // Create the table
-        $table->id();
+        Schema::create('jobs', function (Blueprint $table) {
+            $table->id();
             $table->string('title');
             $table->text('description');
             $table->decimal('salary');  
@@ -25,15 +21,20 @@ class CreateJobsTable extends Migration
             $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
             $table->timestamp('posted_at')->nullable();
             $table->timestamps();
+        });
     }
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
+        Schema::table('jobs', function (Blueprint $table) {
+            $table->dropForeign(['company_id']);
+            $table->dropForeign(['category_id']);
+        });
+
+
         Schema::dropIfExists('jobs');
     }
-}
+};
