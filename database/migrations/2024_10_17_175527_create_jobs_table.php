@@ -16,10 +16,15 @@ class CreateJobsTable extends Migration
         Schema::dropIfExists('jobs');
 
         // Create the table
-        Schema::create('jobs', function (Blueprint $table) {
-            $table->id();
+        $table->id();
+            $table->string('title');
+            $table->text('description');
+            $table->decimal('salary');  
+            $table->string('location');
+            $table->foreignId('company_id')->constrained('companies')->onDelete('cascade');
+            $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
+            $table->timestamp('posted_at')->nullable();
             $table->timestamps();
-        });
     }
 
     /**
