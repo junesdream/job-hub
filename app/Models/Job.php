@@ -24,7 +24,6 @@ class Job extends Model
         'posted_at',
     ];
       
-
     // Relationship to Company (A job belongs to a company)
     public function company()
     {

@@ -24,8 +24,8 @@ class JobController extends Controller
      */
     public function create()
     {
-        $companies = \App\Models\Company::all();
-        $categories = \App\Models\Category::all();
+        $companies = Company::all();
+        $categories = Category::all();
         return view('jobs.create', compact('companies', 'categories'));
     }
 
@@ -33,26 +33,24 @@ class JobController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(StoreJobRequest $request)
-{
+    {
+        $validated = $request->validate([
+            'title' => 'required',
+            'description' => 'required',
+            'salary' => 'required|numeric',
+            'location' => 'required',
+            'company_id' => 'required|exists:companies,id',
+            'category_id' => 'required|exists:categories,id',
+        ]);
 
-   // $this->authorize('create', Job::class);
+        $job = Job::create($validated);
+        return redirect()->route('jobs.index')->with('success', 'Job wurde erfolgreich erstellt!');
+    }
 
-    $validated = $request->validate([
-        'title' => 'required',
-        'description' => 'required',
-        'salary' => 'required|numeric',
-        'location' => 'required',
-        'company_id' => 'required|exists:companies,id',
-        'category_id' => 'required|exists:categories,id',
-    ]);
-
-    $job =Job::create($validated);
-    return redirect()->route('jobs.index')->with('success', 'Job wurde erfolgreich erstellt!');
-}
     /**
      * Display the specified resource.
      */
-     public function show(Job $job)
+    public function show(Job $job)
     {
         $companies = Company::all();
         $categories = Category::all();
@@ -63,11 +61,12 @@ class JobController extends Controller
      * Show the form for editing the specified resource.
      */
     public function edit(Job $job)
-{
-    $companies = Company::all();
-    $categories = Category::all();
-    return view('jobs.edit', compact('job', 'companies', 'categories'));
-}
+    {
+        $companies = Company::all();
+        $categories = Category::all();
+        return view('jobs.edit', compact('job', 'companies', 'categories'));
+    }
+
     /**
      * Update the specified resource in storage.
      */
@@ -84,7 +83,6 @@ class JobController extends Controller
 
         $job->update($validated);
         return redirect()->route('jobs.index')->with('success', 'Job updated successfully.');
-
     }
 
     /**
@@ -94,6 +92,5 @@ class JobController extends Controller
     {
         $job->delete();
         return redirect()->route('jobs.index')->with('success', 'Job deleted successfully.');
-    
     }
 }
