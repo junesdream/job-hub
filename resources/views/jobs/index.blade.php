@@ -1,50 +1,30 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Job Listings</title>
-     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body {
-            background-color: #333;
-            color: #ddd;
-            font-family: Arial, sans-serif;
-            padding: 20px;
-        }
-        .card {
-            background-color: #444;
-            border: none;
-            color: #ddd;
-            margin-bottom: 20px;
-        }
-        .card-header {
-            font-weight: bold;
-        }
-    </style>
-</head>
-<body>
-   <div class="container">
-        <h1 class="text-center mb-5">Job Listings</h1>
-        <div class="row">
-            @foreach ($jobs as $job)
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-header">
-                            {{ $job->title }}
-                        </div>
-                        <div class="card-body">
-                            <p><strong>Description:</strong> {{ $job->description }}</p>
-                            <p><strong>Salary:</strong> {{ $job->salary }}</p>
-                            <p><strong>Location:</strong> {{ $job->location }}</p>
-                            <p><strong>Company:</strong> {{ $job->company->name }}</p>
-                            <p><strong>Category:</strong> {{ $job->category->name }}</p>
-                            <p><strong>Posted at:</strong> {{ \Carbon\Carbon::parse($job->posted_at)->format('d.m.Y') }}</p>
-                            <a href="{{ route('jobs.show', $job->id) }}" class="btn btn-primary">View Details</a>
-                        </div>
+@extends('layouts.app')
+
+@section('title', 'Jobs')
+
+@section('content')
+    @include('partials.buttons', ['resource' => 'jobs'])
+    <h1>Jobs</h1>
+    <div class="row">
+        @foreach($jobs as $job)
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ $job->title }}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">{{ $job->company->name }}</h6>
+                        <p class="card-text">{{ $job->description }}</p>
+                        <p class="card-text"><strong>Salary:</strong> {{ $job->salary }}</p>
+                        <p class="card-text"><strong>Location:</strong> {{ $job->location }}</p>
+                        <p class="card-text"><strong>Category:</strong> {{ $job->category->name }}</p>
+                        <a href="{{ route('jobs.edit', $job->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                        <form action="{{ route('jobs.destroy', $job->id) }}" method="POST" class="d-inline">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">Delete</button>
+                        </form>
                     </div>
                 </div>
-            @endforeach
-        </div>
+            </div>
+        @endforeach
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+@endsection
