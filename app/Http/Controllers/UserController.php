@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use Illuminate\Http\Request;
+use App\Http\Requests\StoreUserRequest;
+use App\Http\Requests\UpdateUserRequest;
 use Illuminate\Support\Facades\Hash;
-
 
 class UserController extends Controller
 {
@@ -20,27 +20,18 @@ class UserController extends Controller
         return view('users.create');
     }
 
-   public function store(Request $request)
+    public function store(StoreUserRequest $request)
     {
-        try {
-            $validated = $request->validate([
-                'username' => 'required|string|unique:users',
-                'email' => 'required|string|email|unique:users',
-                'password' => 'required|string|min:8',
-                'role' => 'nullable|string',
-            ]);
+        $validated = $request->validated();
 
-            $user = User::create([
-                'username' => $validated['username'],
-                'email' => $validated['email'],
-                'password' => Hash::make($validated['password']),
-                'role' => $validated['role'],
-            ]);
+        User::create([
+            'username' => $validated['username'],
+            'email' => $validated['email'],
+            'password' => Hash::make($validated['password']),
+            'role' => $validated['role'],
+        ]);
 
-            return redirect()->route('users.index')->with('success', 'User created successfully.');
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            return redirect()->back()->withErrors($e->errors())->withInput();
-        }
+        return redirect()->route('users.index')->with('success', 'User created successfully.');
     }
 
     public function edit(User $user)
@@ -48,28 +39,24 @@ class UserController extends Controller
         return view('users.edit', compact('user'));
     }
 
-    public function update(Request $request, User $user)
+    public function update(UpdateUserRequest $request, User $user)
     {
-        $request->validate([
-            'username' => 'required|string|unique:users,username,' . $user->id,
-            'email' => 'required|string|email|unique:users,email,' . $user->id,
-            'password' => 'nullable|string|min:8',
-            'role' => 'nullable|string',
-        ]);
+        $validated = $request->validated();
 
         $user->update([
-            'username' => $request->username,
-            'email' => $request->email,
-            'role' => $request->role,
+            'username' => $validated['username'],
+            'email' => $validated['email'],
+            'role' => $validated['role'],
         ]);
 
-        if ($request->password) {
-            $user->update(['password' => Hash::make($request->password)]);
+        if ($validated['password']) {
+            $user->update(['password' => Hash::make($validated['password'])]);
         }
 
         return redirect()->route('users.index')->with('success', 'User updated successfully.');
     }
-      public function destroy(User $user)
+
+    public function destroy(User $user)
     {
         $user->delete();
         return redirect()->route('users.index')->with('success', 'User deleted successfully.');

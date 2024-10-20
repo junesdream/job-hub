@@ -16,6 +16,8 @@
                         <p class="card-text"><strong>Salary:</strong> {{ $job->salary }}</p>
                         <p class="card-text"><strong>Location:</strong> {{ $job->location }}</p>
                         <p class="card-text"><strong>Category:</strong> {{ $job->category->name }}</p>
+                    </div>
+                    <div class="card-footer d-flex justify-content-between">
                         <a href="{{ route('jobs.edit', $job->id) }}" class="btn btn-warning btn-sm">Edit</a>
                         <form action="{{ route('jobs.destroy', $job->id) }}" method="POST" class="d-inline">
                             @csrf

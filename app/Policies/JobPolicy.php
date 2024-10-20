@@ -8,12 +8,13 @@ use Illuminate\Auth\Access\Response;
 
 class JobPolicy
 {
+    use HandlesAuthorization;
     /**
      * Determine whether the user can view any models.
      */
     public function viewAny(User $user): bool
     {
-        //
+        return true;
     }
 
     /**
@@ -21,7 +22,7 @@ class JobPolicy
      */
     public function view(User $user, Job $job): bool
     {
-        //
+        return true;
     }
 
     /**
@@ -29,7 +30,7 @@ class JobPolicy
      */
     public function create(User $user): bool
     {
-        //
+        return $user->Admin();
     }
 
     /**
@@ -37,7 +38,7 @@ class JobPolicy
      */
     public function update(User $user, Job $job): bool
     {
-        //
+        return $user->isAdmin();
     }
 
     /**
@@ -45,7 +46,7 @@ class JobPolicy
      */
     public function delete(User $user, Job $job): bool
     {
-        //
+        return $user->isAdmin();
     }
 
     /**
