@@ -20,23 +20,27 @@ class UserController extends Controller
         return view('users.create');
     }
 
-    public function store(Request $request)
+   public function store(Request $request)
     {
-        $request->validate([
-            'username' => 'required|string|unique:users',
-            'email' => 'required|string|email|unique:users',
-            'password' => 'required|string|min:8|confirmed',
-            'role' => 'nullable|string',
-        ]);
+        try {
+            $validated = $request->validate([
+                'username' => 'required|string|unique:users',
+                'email' => 'required|string|email|unique:users',
+                'password' => 'required|string|min:8',
+                'role' => 'nullable|string',
+            ]);
 
-        User::create([
-            'username' => $request->username,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'role' => $request->role,
-        ]);
+            $user = User::create([
+                'username' => $validated['username'],
+                'email' => $validated['email'],
+                'password' => Hash::make($validated['password']),
+                'role' => $validated['role'],
+            ]);
 
-        return redirect()->route('users.index')->with('success', 'User created successfully.');
+            return redirect()->route('users.index')->with('success', 'User created successfully.');
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return redirect()->back()->withErrors($e->errors())->withInput();
+        }
     }
 
     public function edit(User $user)
@@ -64,5 +68,10 @@ class UserController extends Controller
         }
 
         return redirect()->route('users.index')->with('success', 'User updated successfully.');
+    }
+      public function destroy(User $user)
+    {
+        $user->delete();
+        return redirect()->route('users.index')->with('success', 'User deleted successfully.');
     }
 }
