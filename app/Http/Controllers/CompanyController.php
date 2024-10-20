@@ -14,6 +14,7 @@ class CompanyController extends Controller
     public function index()
     {
         $companies = Company::all();
+
         return view('companies.index', compact('companies'));
     }
 
@@ -40,8 +41,9 @@ class CompanyController extends Controller
         ]);
 
         Company::create($validated);
+
         return redirect()->route('companies.index')->with('success', 'Company created successfully.');
-   
+
     }
 
     /**
@@ -75,6 +77,7 @@ class CompanyController extends Controller
         ]);
 
         $company->update($validated);
+
         return redirect()->route('companies.index')->with('success', 'Company updated successfully.');
     }
 
@@ -83,8 +86,9 @@ class CompanyController extends Controller
      */
     public function destroy(Company $company)
     {
-         $company->delete();
+        $company->delete();
+
         return redirect()->route('companies.index')->with('success', 'Company deleted successfully.');
-    
+
     }
 }

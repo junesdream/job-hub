@@ -2,17 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
-use Illuminate\Support\Facades\Hash;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
     public function index()
     {
         $users = User::all();
+
         return view('users.index', compact('users'));
     }
 
@@ -70,6 +71,7 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         $user->delete();
+
         return redirect()->route('users.index')->with('success', 'User deleted successfully.');
     }
 
@@ -81,8 +83,8 @@ class UserController extends Controller
     public function updateProfile(Request $request, User $user)
     {
         $request->validate([
-            'username' => 'required|string|unique:users,username,' . $user->id,
-            'email' => 'required|string|email|unique:users,email,' . $user->id,
+            'username' => 'required|string|unique:users,username,'.$user->id,
+            'email' => 'required|string|email|unique:users,email,'.$user->id,
             'password' => 'nullable|string|min:8|confirmed',
         ]);
 

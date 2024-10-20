@@ -1,4 +1,3 @@
-<!-- resources/views/users/edit.blade.php -->
 <!DOCTYPE html>
 <html>
 <head>

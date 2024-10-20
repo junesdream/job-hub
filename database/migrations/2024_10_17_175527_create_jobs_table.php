@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->text('description');
-            $table->decimal('salary');  
+            $table->decimal('salary');
             $table->string('location');
             $table->foreignId('company_id')->constrained('companies')->onDelete('cascade');
             $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
@@ -33,7 +33,6 @@ return new class extends Migration
             $table->dropForeign(['company_id']);
             $table->dropForeign(['category_id']);
         });
-
 
         Schema::dropIfExists('jobs');
     }

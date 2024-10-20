@@ -2,9 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Models\Job;
-use App\Models\Company;
-use App\Models\Category;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -30,4 +27,3 @@ class JobFactory extends Factory
         ];
     }
 }
-

@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreJobRequest;
 use App\Http\Requests\UpdateJobRequest;
-use App\Models\Job;
-use App\Models\Company;
 use App\Models\Category;
+use App\Models\Company;
+use App\Models\Job;
 
 class JobController extends Controller
 {
@@ -16,6 +16,7 @@ class JobController extends Controller
     public function index()
     {
         $jobs = Job::all();
+
         return view('jobs.index', compact('jobs'));
     }
 
@@ -26,6 +27,7 @@ class JobController extends Controller
     {
         $companies = Company::all();
         $categories = Category::all();
+
         return view('jobs.create', compact('companies', 'categories'));
     }
 
@@ -44,6 +46,7 @@ class JobController extends Controller
         ]);
 
         $job = Job::create($validated);
+
         return redirect()->route('jobs.index')->with('success', 'Job wurde erfolgreich erstellt!');
     }
 
@@ -54,6 +57,7 @@ class JobController extends Controller
     {
         $companies = Company::all();
         $categories = Category::all();
+
         return view('jobs.show', compact('job', 'companies', 'categories'));
     }
 
@@ -64,6 +68,7 @@ class JobController extends Controller
     {
         $companies = Company::all();
         $categories = Category::all();
+
         return view('jobs.edit', compact('job', 'companies', 'categories'));
     }
 
@@ -82,6 +87,7 @@ class JobController extends Controller
         ]);
 
         $job->update($validated);
+
         return redirect()->route('jobs.index')->with('success', 'Job updated successfully.');
     }
 
@@ -91,6 +97,7 @@ class JobController extends Controller
     public function destroy(Job $job)
     {
         $job->delete();
+
         return redirect()->route('jobs.index')->with('success', 'Job deleted successfully.');
     }
 }

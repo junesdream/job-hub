@@ -4,11 +4,11 @@ namespace App\Policies;
 
 use App\Models\Job;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
 class JobPolicy
 {
     use HandlesAuthorization;
+
     /**
      * Determine whether the user can view any models.
      */
