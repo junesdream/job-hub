@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -13,6 +14,16 @@ class UserController extends Controller
     {
         $users = User::all();
         return view('users.index', compact('users'));
+    }
+
+    public function show(User $user)
+    {
+        return view('users.show', compact('user'));
+    }
+
+    public function showProfile(User $user)
+    {
+        return view('user.show', compact('user'));
     }
 
     public function create()
@@ -60,5 +71,30 @@ class UserController extends Controller
     {
         $user->delete();
         return redirect()->route('users.index')->with('success', 'User deleted successfully.');
+    }
+
+    public function editProfile(User $user)
+    {
+        return view('user.edit', compact('user'));
+    }
+
+    public function updateProfile(Request $request, User $user)
+    {
+        $request->validate([
+            'username' => 'required|string|unique:users,username,' . $user->id,
+            'email' => 'required|string|email|unique:users,email,' . $user->id,
+            'password' => 'nullable|string|min:8|confirmed',
+        ]);
+
+        $user->update([
+            'username' => $request->username,
+            'email' => $request->email,
+        ]);
+
+        if ($request->password) {
+            $user->update(['password' => bcrypt($request->password)]);
+        }
+
+        return redirect()->route('users.show', $user->id)->with('success', 'Profile updated successfully.');
     }
 }
