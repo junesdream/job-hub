@@ -14,7 +14,7 @@ The installation follows the Laravel documentation. If you are using Laravel Sai
 ### Installation Steps:
 1. Clone the repository:
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/junesdream/job-hub
    cd job-hub
    ```
 2. Install dependencies:
@@ -44,7 +44,7 @@ The installation follows the Laravel documentation. If you are using Laravel Sai
 ## 📜 Requirements and Technologies Used
 - **Laravel Framework v11.9**
 - **PHP v8.2**
-- **MySQL (or SQLite)** for the database
+- **SQLite (or MySQL)** for the database
 - **Laravel Sail**: Docker-based development environment
 - **Laravel Tinker**: for database interaction during development
 
@@ -64,6 +64,7 @@ Each model has corresponding **CRUD** functionality, implemented through control
   sail artisan make:model Job --all
   sail artisan make:model Company --all
   sail artisan make:model Category --all
+  sail artisan make:model User --all
   ```
 - Run migrations:
   ```bash
