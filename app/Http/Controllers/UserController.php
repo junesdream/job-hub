@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
+
 class UserController extends Controller
 {
     public function index()
@@ -24,7 +25,7 @@ class UserController extends Controller
         $request->validate([
             'username' => 'required|string|unique:users',
             'email' => 'required|string|email|unique:users',
-            'password' => 'required|string|min:8',
+            'password' => 'required|string|min:8|confirmed',
             'role' => 'nullable|string',
         ]);
 
@@ -63,11 +64,5 @@ class UserController extends Controller
         }
 
         return redirect()->route('users.index')->with('success', 'User updated successfully.');
-    }
-
-    public function destroy(User $user)
-    {
-        $user->delete();
-        return redirect()->route('users.index')->with('success', 'User deleted successfully.');
     }
 }
