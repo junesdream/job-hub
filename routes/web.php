@@ -17,3 +17,4 @@ Route::get('/', function () {
 Route::resource('jobs', JobController::class);
 Route::resource('companies', CompanyController::class);
 Route::resource('categories', CategoryController::class);
+Route::resource('users', UserController::class);
