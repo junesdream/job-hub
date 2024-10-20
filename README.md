@@ -4,8 +4,9 @@
 Job Hub is a browser-based application for managing job postings. This application was built using the Laravel framework. The project includes several features, such as CRUD operations (Create, Read, Update, Delete) for different models like Job, Company, Category and User.
 
 ## Sitemap
-![Sitemap](public/assets/sitemap.png)
-![modelle](public/assets/modelle.png)
+![Sitemap](https://github.com/junesdream/job-hub/raw/main/public/assets/sitemap.png)
+
+![modelle](https://github.com/junesdream/job-hub/raw/main/public/assets/modelle.png)
 
 ## 🤖 Installation
 The installation follows the Laravel documentation. If you are using Laravel Sail, you can start the containers and run the migrations to set up the database.
