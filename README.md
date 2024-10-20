@@ -84,8 +84,8 @@ Each model has corresponding **CRUD** functionality, implemented through control
 - Alternatively, the application can be run locally using `php artisan serve`.
 
 ## 📈 Features
-- **CRUD for Job Postings**: Create, view, edit, and delete job postings.
-- **Company and Category Management**: Create, edit, and view companies and categories.
+- **CRUD for Job Postings**: View, create, edit & delete job postings.
+- **Company and Category Management**: View, create, edit & delete companies and categories.
 - **User Management**: Manage user permissions (planned feature).
 
 ## 🛠 Troubleshooting
